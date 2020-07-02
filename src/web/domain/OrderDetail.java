@@ -12,14 +12,17 @@ public class OrderDetail {
 	private String phone;
 	private String payCode;
 	private int quantity;
-	private int totalPrice;
+	private long totalPrice;
 	private int discount;
 	private String memo;
+	private String orderState;
+	
+	private long totalPay;
 	
 	public OrderDetail() {}
 	
 	public OrderDetail(int orderNo, String email, int deliverNo, int productCode, Date orderDate, String address,
-			String phone, String payCode, int quantity, int totalPrice, int discount, String memo) {
+			String phone, String payCode, int quantity, long totalPrice, int discount, String memo, String orderState) {
 		this.orderNo = orderNo;
 		this.email = email;
 		this.deliverNo = deliverNo;
@@ -32,6 +35,7 @@ public class OrderDetail {
 		this.totalPrice = totalPrice;
 		this.discount = discount;
 		this.memo = memo;
+		this.orderState = orderState;
 	}
 
 	public int getOrderNo() {
@@ -106,11 +110,11 @@ public class OrderDetail {
 		this.quantity = quantity;
 	}
 
-	public int getTotalPrice() {
+	public long getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(int totalPrice) {
+	public void setTotalPrice(long totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
@@ -128,5 +132,29 @@ public class OrderDetail {
 
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+
+	public String getState() {
+		return orderState;
+	}
+
+	public void setState(String orderState) {
+		this.orderState = orderState;
+	}
+
+	public String getOrderState() {
+		return orderState;
+	}
+
+	public void setOrderState(String orderState) {
+		this.orderState = orderState;
+	}
+
+	public long getTotalPay() {
+		return totalPay;
+	}
+
+	public void setTotalPay(long totalPay) {
+		this.totalPay = totalPay;
 	}
 }

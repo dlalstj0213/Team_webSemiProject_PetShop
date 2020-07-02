@@ -23,13 +23,15 @@ public class CartController extends HttpServlet {
 		if(m != null) {
 			m = m.trim();
 			switch(m) {
-			case "myCart": responseMyCartList(request, response); break;
-			case "delete": responseDeleteMyCart(request, response, "one"); break;
+			case "myCart" : responseMyCartList(request, response); break;
+			case "delete" : responseDeleteMyCart(request, response, "one"); break;
 			case "deleteAll" : responseDeleteMyCart(request, response, "all"); break;
-			case "insert": break;
+			case "insert" : responseInsertMyCart(request, response); break;
+			default : responseMyCartList(request, response); break;
 			}
+		} else {
+			responseMyCartList(request, response);
 		}
-		responseMyCartList(request, response);
 	}
 	
 	private void responseMyCartList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -116,6 +118,23 @@ public class CartController extends HttpServlet {
 			result = service.deleteCart(userEmail, -1, type);
 		}
 		request.setAttribute("result", result);
+		String view = "cart.do?m=myCart";
+		RequestDispatcher rd = request.getRequestDispatcher(view);
+		rd.forward(request, response);
+	}
+	
+	private void responseInsertMyCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String userEmail = (String)session.getAttribute("loginUser");
+		String codeStr = request.getParameter("code");
+		CartService service = CartService.getInstance();
+		boolean result = false;
+		if(codeStr != null && userEmail != null) {
+			int productCode = Integer.parseInt(codeStr);
+			userEmail = userEmail.trim();
+			result = service.insertCart(userEmail, productCode);
+		}
+		request.setAttribute("flag", result);
 		String view = "cart.do?m=myCart";
 		RequestDispatcher rd = request.getRequestDispatcher(view);
 		rd.forward(request, response);

@@ -48,7 +48,7 @@ public class CartDAO {
 			}
 			return listResult;
 		} catch(SQLException se) {
-			System.out.println("CartDAO Err-1: "+se);
+			System.out.println("CartDAO Err-1 : "+se);
 			return null;
 		} finally {
 			try {
@@ -56,7 +56,7 @@ public class CartDAO {
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
 			} catch(SQLException se) {
-				System.out.println("CartDAO Err-2: "+se);
+				System.out.println("CartDAO Err-2 : "+se);
 			}
 		}
 	}
@@ -76,7 +76,7 @@ public class CartDAO {
 			}
 			return -1;
 		} catch(SQLException se) {
-			System.out.println("CartDAO Err-3: "+se);
+			System.out.println("CartDAO Err-3 : "+se);
 			return -1;
 		} finally {
 			try {
@@ -84,7 +84,7 @@ public class CartDAO {
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
 			} catch(SQLException se) {
-				System.out.println("CartDAO Err-4: "+se);
+				System.out.println("CartDAO Err-4 : "+se);
 			}
 		}
 	}
@@ -109,14 +109,41 @@ public class CartDAO {
 				return false;
 			}
 		} catch(SQLException se) {
-			System.out.println("CartDAO Err-5: "+se);
+			System.out.println("CartDAO Err-5 : "+se);
 			return false;
 		} finally {
 			try {
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
 			} catch(SQLException se) {
-				System.out.println("CartDAO Err-6: "+se);
+				System.out.println("CartDAO Err-6 : "+se);
+			}			
+		}
+	}
+	
+	boolean insertCart(String userEmail, int productCode) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(CartSQL.INSERT_PRODUCT_TO_CART);
+			pstmt.setString(1, userEmail);
+			pstmt.setInt(2, productCode);
+			int i = pstmt.executeUpdate();
+			if(i>0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch(SQLException se) {
+			System.out.println("CartDAO Err-7 : "+se);
+			return false;
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(SQLException se) {
+				System.out.println("CartDAO Err-8 : "+se);
 			}			
 		}
 	}

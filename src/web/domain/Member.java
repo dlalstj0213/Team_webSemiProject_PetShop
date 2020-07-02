@@ -4,14 +4,14 @@ public class Member {
 	private String email;
 	private String name;
 	private String pwd;
-	private String post;
+	private int post;
 	private String address;
 	private String phone;
 	private int point;
 	
 	public Member() {}
 
-	public Member(String email, String name, String pwd, String post, String address, String phone, int point) {
+	public Member(String email, String name, String pwd, int post, String address, String phone, int point) {
 		this.email = email;
 		this.name = name;
 		this.pwd = pwd;
@@ -45,11 +45,11 @@ public class Member {
 		this.pwd = pwd;
 	}
 
-	public String getPost() {
+	public int getPost() {
 		return post;
 	}
 
-	public void setPost(String post) {
+	public void setPost(int post) {
 		this.post = post;
 	}
 
