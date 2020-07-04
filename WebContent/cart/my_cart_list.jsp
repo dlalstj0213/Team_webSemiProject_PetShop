@@ -226,33 +226,6 @@
     <!--::footer_part start::-->
     <!--::footer_part end::-->
 
-    <!-- jquery plugins here-->
-    <script src="../set/js/jquery-1.12.1.min.js"></script>
-    <!-- popper js -->
-    <script src="../set/js/popper.min.js"></script>
-    <!-- bootstrap js -->
-    <script src="../set/js/bootstrap.min.js"></script>
-    <!-- easing js -->
-    <script src="../set/js/jquery.magnific-popup.js"></script>
-    <!-- swiper js -->
-    <script src="../set/js/swiper.min.js"></script>
-    <!-- swiper js -->
-    <script src="../set/js/mixitup.min.js"></script>
-    <!-- particles js -->
-    <script src="../set/js/owl.carousel.min.js"></script>
-    <script src="../set/js/jquery.nice-select.min.js"></script>
-    <!-- slick js -->
-    <script src="../set/js/slick.min.js"></script>
-    <script src="../set/js/jquery.counterup.min.js"></script>
-    <script src="../set/js/waypoints.min.js"></script>
-    <script src="../set/js/contact.js"></script>
-    <script src="../set/js/jquery.ajaxchimp.min.js"></script>
-    <script src="../set/js/jquery.form.js"></script>
-    <script src="../set/js/jquery.validate.min.js"></script>
-    <script src="../set/js/mail-script.js"></script>
-    <!-- custom js -->
-    <script src="../set/js/custom.js"></script>
-    
     <jsp:include page="../module/layout_last.jsp"/>
 </body>
 

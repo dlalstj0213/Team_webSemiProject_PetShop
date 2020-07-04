@@ -4,11 +4,6 @@
 
 <!DOCTYPE html>
 <html lang="zxx">
-<head>
-<meta charset="EUC-KR">
-<title>layout.jsp</title>
-
-</head>
 <body>
 	<!--::footer_part start::-->
 	<footer class="footer_part">

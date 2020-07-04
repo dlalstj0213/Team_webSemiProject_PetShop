@@ -7,7 +7,6 @@
 <html lang="zxx">
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
 </head>
 <body>
 	<jsp:include page="../module/layout_top.jsp" />
@@ -46,7 +45,7 @@
 							<c:forEach items="${listResult.list}" var="p">
 									<div class="col-lg-4 col-sm-4">
 										<div class="single_product_item">
-											<img src="img/product/${p.name}.jpg" alt="#"
+											<img src="../img/product/${p.name}.jpg" alt="#"
 												class="img-fluid">
 											<h3>
 												<a href="product.do?m=detail&product_code=${p.product_code}">${p.name}</a>

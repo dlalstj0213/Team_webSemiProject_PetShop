@@ -1,4 +1,4 @@
-<%@page contentType="text/html;charset=utf-8"
+	<%@page contentType="text/html;charset=utf-8"
 	import="java.util.*, web.domain.Product"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -6,7 +6,6 @@
 <html lang="zxx">
 <head>
 <meta charset="EUC-KR">
-<title>ForPet</title>
 </head>
 <body>
 	<jsp:include page="../module/layout_top.jsp" />
@@ -31,15 +30,15 @@
 	          <div class="product_img_slide owl-carousel">
 	          
 	            <div class="single_product_img">
-	              <img src="img/product/${pro.name}.jpg" alt="#" class="img-fluid">
+	              <img src="../img/product/${pro.name}.jpg" alt="#" class="img-fluid">
 	            </div>
 	            
 	            <div class="single_product_img">
-	              <img src="img/product/${pro.name}_2.jpg" alt="#" class="img-fluid">
+	              <img src="../img/product/${pro.name}_2.jpg" alt="#" class="img-fluid">
 	            </div>
 	            
 	            <div class="single_product_img">
-	              <img src="img/product/${pro.name}_3.jpg" alt="#" class="img-fluid">
+	              <img src="../img/product/${pro.name}_3.jpg" alt="#" class="img-fluid">
 	            </div>
 	            
 	          </div>

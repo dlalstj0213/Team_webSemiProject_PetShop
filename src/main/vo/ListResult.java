@@ -15,8 +15,12 @@ public class ListResult {
 	public ListResult() {
 	}
 	
+	public ListResult(List<?> list, Pagination page) {
+		this.list = list;
+		this.page = page;
+	}
+
 	public ListResult(List<?> list, long subTotal) {
-		super();
 		this.list = list;
 		this.subTotal = subTotal;
 	}

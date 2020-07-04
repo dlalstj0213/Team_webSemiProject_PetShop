@@ -2,12 +2,9 @@ package main.order.model;
 
 import java.util.ArrayList;
 
-import main.cart.model.CartService;
 import main.vo.ListResult;
-import main.vo.Receipt;
 import main.vo.ResultSet;
 import web.domain.Cart;
-import web.domain.Member;
 import web.domain.OrderDetail;
 
 public class OrderService {

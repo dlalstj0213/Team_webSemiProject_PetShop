@@ -8,7 +8,7 @@
 </head>
 <body>
 	<script>
-		location.href = "main/main.jsp";
+		location.href = "home/home.do";
 	</script>
 	</body>
 </html>

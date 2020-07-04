@@ -5,14 +5,12 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-<meta charset="EUC-KR">
-<title>ForPet</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ForPet</title>
+    <link rel="icon" href="../img/favicon.png">
 
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>pillloMart</title>
-<link rel="icon" href="../set/img/favicon.png">
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="../set/css/bootstrap.min.css">
 <!-- animate CSS -->
@@ -37,8 +35,8 @@
 			<div class="row align-items-center justify-content-center">
 				<div class="col-lg-12">
 					<nav class="navbar navbar-expand-lg navbar-light">
-						<a class="navbar-brand" href="index.jsp">
-							<img src="img/forpet.png" height="70" alt="logo">
+						<a class="navbar-brand" href="../index.do">
+							<img src="../img/forpet.png" height="70" alt="logo">
 						</a>
 						<button class="navbar-toggler" type="button"
 							data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -52,7 +50,7 @@
 							<ul class="navbar-nav">
 								<li class="nav-item"><a class="nav-link" href="../index.do">Home</a>
 								</li>
-								<li class="nav-item"><a class="nav-link" href="../product/product.jsp">Product</a>
+								<li class="nav-item"><a class="nav-link" href="../product/product.do?m=page">Product</a>
 								</li>
 								<li class="nav-item"><a class="nav-link"
 									href="comments.html">Review</a></li>
