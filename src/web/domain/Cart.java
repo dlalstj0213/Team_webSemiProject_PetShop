@@ -4,10 +4,11 @@ public class Cart {
 	private int cartCode;
 	private String email;
 	private int productCode;
+	private int quantity;
 	
 	private String name;
 	private long price;
-	private int quantity;
+	private long totalPrice;
 	
 	public Cart() {}
 	
@@ -16,14 +17,16 @@ public class Cart {
 		this.email = email;
 		this.productCode = productCode;
 	}
-	
-	public Cart(int cartCode, String email, int productCode, String name, long price, int quantity) {
+
+	public Cart(int cartCode, String email, int productCode, int quantity, String name, long price, long totalPrice) {
+		super();
 		this.cartCode = cartCode;
 		this.email = email;
 		this.productCode = productCode;
+		this.quantity = quantity;
 		this.name = name;
 		this.price = price;
-		this.quantity = quantity;
+		this.totalPrice = totalPrice;
 	}
 
 	public int getCartCode() {
@@ -72,5 +75,12 @@ public class Cart {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	public long getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(long totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 }

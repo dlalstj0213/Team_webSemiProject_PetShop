@@ -17,7 +17,7 @@ public class OrderDetail {
 	private String memo;
 	private String orderState;
 	
-	private long totalPay;
+	private String productName;
 	
 	public OrderDetail() {}
 	
@@ -42,119 +42,134 @@ public class OrderDetail {
 		return orderNo;
 	}
 
-	public void setOrderNo(int orderNo) {
+	public OrderDetail setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
+		return this;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public OrderDetail setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 
 	public int getDeliverNo() {
 		return deliverNo;
 	}
 
-	public void setDeliverNo(int deliverNo) {
+	public OrderDetail setDeliverNo(int deliverNo) {
 		this.deliverNo = deliverNo;
+		return this;
 	}
 
 	public int getProductCode() {
 		return productCode;
 	}
 
-	public void setProductCode(int productCode) {
+	public OrderDetail setProductCode(int productCode) {
 		this.productCode = productCode;
+		return this;
 	}
 
 	public Date getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public OrderDetail setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+		return this;
 	}
 
 	public String getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public OrderDetail setAddress(String address) {
 		this.address = address;
+		return this;
 	}
 
 	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(String phone) {
+	public OrderDetail setPhone(String phone) {
 		this.phone = phone;
+		return this;
 	}
 
 	public String getPayCode() {
 		return payCode;
 	}
 
-	public void setPayCode(String payCode) {
+	public OrderDetail setPayCode(String payCode) {
 		this.payCode = payCode;
+		return this;
 	}
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public OrderDetail setQuantity(int quantity) {
 		this.quantity = quantity;
+		return this;
 	}
 
 	public long getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(long totalPrice) {
+	public OrderDetail setTotalPrice(long totalPrice) {
 		this.totalPrice = totalPrice;
+		return this;
 	}
 
 	public int getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(int discount) {
+	public OrderDetail setDiscount(int discount) {
 		this.discount = discount;
+		return this;
 	}
 
 	public String getMemo() {
 		return memo;
 	}
 
-	public void setMemo(String memo) {
+	public OrderDetail setMemo(String memo) {
 		this.memo = memo;
+		return this;
 	}
 
 	public String getState() {
 		return orderState;
 	}
 
-	public void setState(String orderState) {
+	public OrderDetail setState(String orderState) {
 		this.orderState = orderState;
+		return this;
 	}
 
 	public String getOrderState() {
 		return orderState;
 	}
 
-	public void setOrderState(String orderState) {
+	public OrderDetail setOrderState(String orderState) {
 		this.orderState = orderState;
+		return this;
 	}
 
-	public long getTotalPay() {
-		return totalPay;
+	public String getProductName() {
+		return productName;
 	}
 
-	public void setTotalPay(long totalPay) {
-		this.totalPay = totalPay;
+	public OrderDetail setProductName(String productName) {
+		this.productName = productName;
+		return this;
 	}
 }

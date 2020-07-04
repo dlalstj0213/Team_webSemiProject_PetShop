@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import main.cart.model.CartSQL;
+import web.domain.Cart;
 import web.domain.Member;
 import web.domain.OrderDetail;
 
@@ -32,7 +33,7 @@ public class OrderDAO {
 	/**
 	 * OracleDB -> value of ORDER_STATE = 'A' = deliver progress
 	 * OracleDB -> value of ORDER_STATE = 'B' = deliver finished
-	 * OracleDB -> value of ORDER_STATE = 'C' = default state
+	 * OracleDB -> value of ORDER_STATE = 'C' = default state(payment-progress)
 	 */
 	boolean insertOrderDetail(OrderDetail orderDetail) {
 		Connection conn = null;
@@ -100,8 +101,9 @@ public class OrderDAO {
 		PreparedStatement pstmt = null;
 		try {
 			conn = ds.getConnection();
+			System.out.println("NO : "+orderDetail.getOrderNo());
 			pstmt = conn.prepareStatement(OrderSQL.UPDATE_ORDER_STATE);
-			pstmt.setString(1, orderDetail.getEmail());
+			pstmt.setInt(1, orderDetail.getOrderNo());
 			int i = pstmt.executeUpdate();
 			if(i>0) {
 				return true;
@@ -121,14 +123,18 @@ public class OrderDAO {
 		}
 	}
 
-	ArrayList<OrderDetail> getOrderDetail(String userEmail) {
+	ArrayList<OrderDetail> getOrderDetail(String userEmail, String state) {
 		ArrayList<OrderDetail> listResult = new ArrayList<OrderDetail>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			conn = ds.getConnection();
-			pstmt =conn.prepareStatement(OrderSQL.SELECT_PAYMENT_SUCCESS);
+			if(state.equals("payment-progress")) {
+				pstmt =conn.prepareStatement(OrderSQL.SELECT_PAYMENT_PROGRESS);
+			} else if(state.equals("payment-success")) {
+				pstmt =conn.prepareStatement(OrderSQL.SELECT_PAYMENT_SUCCESS);
+			}
 			pstmt.setString(1, userEmail);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -161,6 +167,34 @@ public class OrderDAO {
 		}
 	}
 
+	int getProductQuantity(int productCode) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(OrderSQL.SELECT_PRODUCT_QUANTITY);
+			pstmt.setInt(1, productCode);
+			rs = pstmt.executeQuery()	;
+			if(rs.next()) {
+				int quantity = rs.getInt("QUANTITY");
+				return quantity;
+			}
+			return -1;
+		} catch(SQLException se) {
+			System.out.println("OrderDAO Err-15 : "+se);
+			return -1;
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(SQLException se) {
+				System.out.println("OrderDAO Err-16 : "+se);
+			}
+		}
+	}
+
 	boolean updateProductQuantity(OrderDetail orderDetail) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -168,7 +202,7 @@ public class OrderDAO {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(OrderSQL.UPDATE_PRODUCT_QUANTITY);
 			pstmt.setInt(1, orderDetail.getQuantity());
-			pstmt.setInt(1, orderDetail.getProductCode());
+			pstmt.setInt(2, orderDetail.getProductCode());
 			int i = pstmt.executeUpdate();
 			if(i>0) {
 				return true;
@@ -188,20 +222,19 @@ public class OrderDAO {
 		}		
 	}
 
-	ArrayList<OrderDetail> getAllMyCart(String userEmail, String address, String phone) {
+	ArrayList<OrderDetail> getAllMyCart(String userEmail, String address, String phone, int quantity) {
 		ArrayList<OrderDetail> listResult = new ArrayList<OrderDetail>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			conn = ds.getConnection();
-			pstmt =conn.prepareStatement(CartSQL.SELECT_MY_CART);
+			pstmt =conn.prepareStatement(CartSQL.SELECT_ALL_CART);
 			pstmt.setString(1, userEmail);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int productCode = rs.getInt("PRODUCT_CODE");
 				long price = rs.getLong("PRICE");
-				int quantity = rs.getInt("QUANTITY");
 				listResult.add(new OrderDetail(-1, userEmail, 1, productCode, null, address, phone, null, quantity, price, 0, null, null));
 			}
 			return listResult;
@@ -247,6 +280,33 @@ public class OrderDAO {
 			} catch(SQLException se) {
 				System.out.println("OrderDAO Err-14 : "+se);
 			}					
+		}
+	}
+
+	boolean deleteMyCart(Cart cart) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(CartSQL.DELETE_MY_CART);			
+			pstmt.setString(1, cart.getEmail());
+			pstmt.setInt(2, cart.getCartCode());
+			int i = pstmt.executeUpdate();
+			if(i>0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch(SQLException se) {
+			System.out.println("OrderDAO Err-17 : "+se);
+			return false;
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(SQLException se) {
+				System.out.println("OrderDAO Err-18 : "+se);
+			}			
 		}
 	}
 }

@@ -9,13 +9,12 @@
 </head>
 <body>
 	<h1>구매 완료 결과</h1>
-	<c:if test="${result.isPayed}">
-				결제 완료<br/>총 결제된 금액 : ${result.totalPay}<br/>
+	<c:if test="${result.flag}">
+				결제 완료<br/>총 결제된 금액 : ${result.totalPay}<br/>결과종류 : ${result.resultType}<br/>
 	</c:if>
-	<c:if test="${!result.isPayed}">
-		결제 실패
+	<c:if test="${!result.flag}">
+		결제 실패 <br/>결과종류 : ${result.resultType}<br/>
 	</c:if>
-	
-	<br/>
+	<a href="cart.do"><input type="button" value="확인"/></a>
 </body>
 </html>

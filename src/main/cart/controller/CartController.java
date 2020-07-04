@@ -11,13 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import main.cart.model.CartService;
-import main.vo.Pagination;
+import main.vo.ListResult;
+import main.vo.ProductSet;
+import web.domain.Member;
 
-@WebServlet("/cart.do")
+@WebServlet("/cart/cart.do")
 public class CartController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    String m = "";   
-	
+	String m = "";   
+
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		m  = request.getParameter("m");
 		if(m != null) {
@@ -33,16 +35,9 @@ public class CartController extends HttpServlet {
 			responseMyCartList(request, response);
 		}
 	}
-	
+
 	private void responseMyCartList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String userEmail = null;
-		if(request.getParameter("userEmail")==null) {
-			 userEmail = (String) session.getAttribute("loginUser");
-		} else {
-			userEmail = request.getParameter("userEmail");
-		}
-		
 		String cpStr = request.getParameter("cp");
 		String psStr = request.getParameter("ps");
 
@@ -59,7 +54,7 @@ public class CartController extends HttpServlet {
 		session.setAttribute("cp", currentPage);
 
 		//(2) ps 
-		int pageSize = 10;
+		int pageSize = 3;
 		if(psStr == null) {
 			Object psObj = session.getAttribute("ps");
 			if(psObj != null) {
@@ -86,43 +81,40 @@ public class CartController extends HttpServlet {
 		}
 		session.setAttribute("ps", pageSize);
 		
-		if(userEmail != null) {
-			CartService service = CartService.getInstance();
-			Pagination result = service.getPagination(currentPage, pageSize, userEmail);
-			request.setAttribute("result", result);
-			//
-			session.setAttribute("loginUser", userEmail);
-			//
-			if(result.getListResult().size() == 0 && currentPage>1) {
-				response.sendRedirect("board.do?m=fboard&cp="+(currentPage-1));
-			}else {
-				String view = "result.jsp";
-				RequestDispatcher rd = request.getRequestDispatcher(view);
-				rd.forward(request, response);
-			}
+		Member user = (Member)session.getAttribute("loginUser");
+		CartService service = CartService.getInstance();
+		ListResult result = service.getListResult(currentPage, pageSize, user.getEmail());
+		session.setAttribute("cart", result);
+		//상품셋
+		request.setAttribute("product", new ProductSet());
+
+		if(result.getList() != null && result.getList().size() == 0 && currentPage>1) {
+			response.sendRedirect("cart.do?m=myCart&cp="+(currentPage-1));
+		}else {
+			String view = "my_cart_list.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(view);
+			rd.forward(request, response);
 		}
 	}
-	
+
 	private void responseDeleteMyCart(HttpServletRequest request, HttpServletResponse response, String type) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		CartService service = CartService.getInstance();
 		boolean result = false;
-		String userEmail = (String)session.getAttribute("loginUser");
+		Member user = (Member)session.getAttribute("loginUser");
 		String codeStr = request.getParameter("code");
-		if(codeStr != null && userEmail != null) {
+		if(codeStr != null && user.getEmail() != null) {
 			int code = Integer.parseInt(codeStr.trim());
-			userEmail = userEmail.trim();
-			result = service.deleteCart(userEmail, code, type);
+			result = service.deleteCart(user.getEmail(), code, type);
 		} else if(codeStr == null) {
-			userEmail = userEmail.trim();
-			result = service.deleteCart(userEmail, -1, type);
+			result = service.deleteCart(user.getEmail(), -1, type);
 		}
 		request.setAttribute("result", result);
 		String view = "cart.do?m=myCart";
 		RequestDispatcher rd = request.getRequestDispatcher(view);
 		rd.forward(request, response);
 	}
-	
+
 	private void responseInsertMyCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String userEmail = (String)session.getAttribute("loginUser");

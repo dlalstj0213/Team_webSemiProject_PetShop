@@ -4,16 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>TEST</title>
+<title>ForPet</title>
 </head>
-<body style="text-align:center" onload="document.f.name.focus()">
-		<h1>장바구니(TEST)</h1>
-		<form name="f" method="post" action="cart.do?m=myCart">
-			이메일(로그인) : <input name="userEmail"><br/>
-			<input type="submit" value="로그인"/>
-			<input type="reset" value="취소"/>
-		</form>
-		
-
+<body>
+	<script>
+		location.href = "main/main.jsp";
+	</script>
 	</body>
 </html>

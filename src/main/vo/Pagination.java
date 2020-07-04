@@ -1,9 +1,5 @@
 package main.vo;
 
-import java.util.List;
-
-import web.domain.Cart;
-
 public class Pagination {
 	//한 페이지 당 게시글 수
 	private int pageSize; 
@@ -29,14 +25,11 @@ public class Pagination {
 	private int prevPage;
 	//다음 페이지
 	private int nextPage;
-	//리스트
-	private List<Cart> listResult;
 	
-	public Pagination(long listCount, int currentPage, int pageSize, List<Cart> listResult) {
+	public Pagination(long listCount, int currentPage, int pageSize) {
 		this.listCount = listCount;
 		this.currentPage = currentPage;
 		this.pageSize = pageSize;
-		this.listResult = listResult;
 		
 		//총 페이지 수
 		setPageCount(listCount);
@@ -155,16 +148,7 @@ public class Pagination {
 		return startIndex;
 	}
 
-	public List<Cart> getListResult() {
-		return listResult;
-	}
-
-	public void setListResult(List<Cart> listResult) {
-		this.listResult = listResult;
-	}
-
 	public void setPageCount(int pageCount) {
 		this.pageCount = pageCount;
 	}
-	
 }

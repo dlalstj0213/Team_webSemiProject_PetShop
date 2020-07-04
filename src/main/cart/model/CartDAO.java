@@ -26,6 +26,43 @@ public class CartDAO {
 		}
 	}
 	
+	ArrayList<Cart> getCartList(String userEmail, int currentPage, int pageSize) {
+		ArrayList<Cart> listResult = new ArrayList<Cart>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(CartSQL.SELECT_CART_PAGE);
+			pstmt.setString(1, userEmail);
+			pstmt.setInt(2, (currentPage-1)*pageSize);
+			pstmt.setInt(3, currentPage*pageSize);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int cartCode = rs.getInt("CART_CODE");
+				String email = rs.getString("EMAIL");
+				int productCode = rs.getInt("PRODUCT_CODE");
+				int quantity = rs.getInt("QUANTITY");
+				String name = rs.getString("NAME");
+				long price = rs.getLong("PRICE");
+				
+				listResult.add(new Cart(cartCode, email, productCode, quantity, name, price, (quantity*price)));
+			}
+			return listResult;
+		} catch(SQLException se) {
+			System.out.println("CartDAO Err-9 : "+se);
+			return null;
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(SQLException se) {
+				System.out.println("CartDAO Err-10 : "+se);
+			}
+		}
+	}
+	
 	ArrayList<Cart> getCartList(String userEmail) {
 		ArrayList<Cart> listResult = new ArrayList<Cart>();
 		Connection conn = null;
@@ -33,18 +70,18 @@ public class CartDAO {
 		ResultSet rs = null;
 		try {
 			conn = ds.getConnection();
-			pstmt = conn.prepareStatement(CartSQL.SELECT_MY_CART);
+			pstmt = conn.prepareStatement(CartSQL.SELECT_ALL_CART);
 			pstmt.setString(1, userEmail);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int cartCode = rs.getInt("CART_CODE");
 				String email = rs.getString("EMAIL");
 				int productCode = rs.getInt("PRODUCT_CODE");
+				int quantity = rs.getInt("QUANTITY");
 				String name = rs.getString("NAME");
 				long price = rs.getLong("PRICE");
-				int quantity = rs.getInt("QUANTITY");
 				
-				listResult.add(new Cart(cartCode, email, productCode, name, price, quantity));
+				listResult.add(new Cart(cartCode, email, productCode, quantity, name, price, (quantity*price)));
 			}
 			return listResult;
 		} catch(SQLException se) {

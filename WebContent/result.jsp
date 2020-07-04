@@ -18,7 +18,6 @@
 		<td>제품코드=${list.productCode}</td>
 		<td>제품명=${list.name}</td>
 		<td>제품가격=${list.price}</td>
-		<td>재고량=${list.quantity}</td>
 		<td><a href='cart.do?m=delete&code=${list.cartCode}'>삭제</a></td>
 		</tr>
 	</c:forEach>
@@ -26,15 +25,15 @@
 	<c:if test="${empty result.listResult}">장바구니 데이터가 없습니다</c:if>
 	
 			<div>
-			<a href="cart.do"><input type="button" value="모두 구매"/></a>
+			<a href="order.do?m=buyAll"><input type="button" value="모두 구매"/></a>
 			<a href="cart.do?m=deleteAll"><input type="button" value="모두 삭제"/></a>
 			</div>
 	
-		<h3>포펫 K50(1)<a href="cart.do?m=insert&code=1">장바구니 추가</a></h3>
-		<h3>포펫 K100(2)<a href="cart.do?m=insert&code=2">장바구니 추가</a></h3>
-		<h3>포펫 K200(3)<a href="cart.do?m=insert&code=3">장바구니 추가</a></h3>
-		<h3>포펫 K300(4)<a href="cart.do?m=insert&code=4">장바구니 추가</a></h3>
-		<h3>포펫 W400(5)<a href="cart.do?m=insert&code=5">장바구니 추가</a></h3>
+		포펫 K50(1)<a href="cart.do?m=insert&code=1">장바구니 추가</a><br/>
+		포펫 K100(2)<a href="cart.do?m=insert&code=2">장바구니 추가</a><br/>
+		포펫 K200(3)<a href="cart.do?m=insert&code=3">장바구니 추가</a><br/>
+		포펫 K300(4)<a href="cart.do?m=insert&code=4">장바구니 추가</a><br/>
+		포펫 W400(5)<a href="cart.do?m=insert&code=5">장바구니 추가</a><br/>
 		<br/>		
 		
 		<h3>포펫 K50(1)</h3>
