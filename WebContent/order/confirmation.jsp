@@ -5,20 +5,30 @@
 <!doctype html>
 <html lang="zxx">
 <head>
+    <jsp:include page="../module/layout_top.jsp"/>
 </head>
 <body>
-    <!--::header part start::-->
-    <jsp:include page="../module/layout_top.jsp"/>
-    <!-- Header part end-->
 
     <!-- breadcrumb part start-->
     <section class="breadcrumb_part">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
+                <c:if test="${result.resultType==1}">
                     <div class="breadcrumb_iner">
                         <h2>Payment Success</h2>
                     </div>
+                </c:if>    
+                <c:if test="${result.resultType==2}">
+                    <div class="breadcrumb_iner">
+                        <h2>Quantity Not Enough</h2>
+                    </div>
+                </c:if>    
+                <c:if test="${result.resultType==3}">
+                    <div class="breadcrumb_iner">
+                        <h2>Payment System Error</h2>
+                    </div>
+                </c:if>    
                 </div>
             </div>
         </div>
@@ -30,11 +40,23 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
+        <c:if test="${result.resultType==1}">
           <div class="confirmation_tittle">
             <span>Thank you. Your order has been received.</span>
           </div>
+        </c:if>
+        <c:if test="${result.resultType==2}">
+          <div class="confirmation_tittle">
+            <span>Sorry. The products you ordered don't have enough quantity now.</span>
+          </div>
+        </c:if>
+        <c:if test="${result.resultType==3}">
+          <div class="confirmation_tittle">
+            <span>Sorry. Your order has not been received.</span>
+          </div>
+        </c:if>
         </div>
-        <div class="col-lg-6 col-lx-4">
+        <%--<div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
             <h4>order info</h4>
             <ul>
@@ -69,8 +91,7 @@
             </ul>
           </div>
         </div>
-      </div>
-      <div class="row">
+      </div> --%>
         <div class="col-lg-12">
           <div class="order_details_iner">
             <h3>Order Details</h3>
@@ -97,20 +118,23 @@
                   <th> <span>${result.subTotal}₩</span></th>
                 </tr>
                 <tr>
+                <c:if test="${result.resultType==1}">
                   <th colspan="3">shipping</th>
                   <th><span>flat rate: 2000₩</span></th>
+                </c:if>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
+                <c:if test="${result.resultType==1}">
                   <th scope="col" colspan="3">Quantity : ${result.totalQuantity}</th>
                   <th scope="col">Total : ${result.subTotal+2000}₩ </th>
+				</c:if>
                 </tr>
               </tfoot>
             </table>
           </div>
         </div>
-      </div>
     </div>
   </section>
   <!--================ confirmation part end =================-->

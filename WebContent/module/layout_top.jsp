@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 
 
 <!DOCTYPE html>
@@ -55,9 +56,15 @@
 								<li class="nav-item"><a class="nav-link"
 									href="comments.html">Review</a></li>
 								<li class="nav-item"><a class="nav-link"
-									href="contact.html">Contact</a></li>
-								<li class="nav-item"><a class="nav-link" href="login.html">Login</a>
+									href="../home/home.do?m=contact">Contact</a></li>
+								<c:if test="${empty loginUser}">
+								<li class="nav-item"><a class="nav-link" href="../login/login.do">Login</a>
 								</li>
+								</c:if>
+								<c:if test="${!empty loginUser}">
+								<li class="nav-item"><a class="nav-link" href="../login/login.do?m=out">Logout</a>
+								</li>
+								</c:if>
 								<!--  
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"

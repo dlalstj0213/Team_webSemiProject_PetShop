@@ -59,7 +59,7 @@ public class CartService {
 		return dao.deleteCart(userEmail, cartCode, type); 
 	}
 	
-	public boolean insertCart(String userEmail, int productCode) {
-		return dao.insertCart(userEmail, productCode);
+	public boolean insertCart(String userEmail, int productCode, int quantity) {
+		return dao.insertCart(userEmail, productCode, quantity);
 	}
 }

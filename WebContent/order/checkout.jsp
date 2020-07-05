@@ -4,9 +4,10 @@
 
 <!doctype html>
 <html lang="zxx">
-
-<body>
+<head>
 <jsp:include page="../module/layout_top.jsp"/>
+</head>
+<body>
     <!-- breadcrumb part start-->
     <section class="breadcrumb_part">
         <div class="container">

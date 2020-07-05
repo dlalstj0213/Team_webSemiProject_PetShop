@@ -4,10 +4,16 @@
     
 <!doctype html>
 <html lang="zxx">
+<head>
+ <jsp:include page="../module/layout_top.jsp"/>
+</head>
 
 <body>
- <jsp:include page="../module/layout_top.jsp"/>
-
+	<c:if test="${empty loginUser}">
+		<script>
+			location.href="../login/login.do";
+		</script>
+	</c:if>
     <!-- breadcrumb part start-->
     <section class="breadcrumb_part">
         <div class="container">
@@ -216,7 +222,7 @@
           <div class="checkout_btn_inner float-right">
             <a class="btn_1" href="../order/order.do?m=checkAll">Buy All</a>
         	<a class="btn_1" href="cart.do?m=deleteAll">Delete All</a>
-            <a class="btn_1" href="../product/product.jsp">Continue Shopping</a>
+            <a class="btn_1" href="../product/product.do?m=page">Continue Shopping</a>
           </div>
         </div>
       </div>

@@ -6,10 +6,9 @@
 
 <html lang="zxx">
 <head>
-<meta charset="EUC-KR">
+	<jsp:include page="../module/layout_top.jsp" />
 </head>
 <body>
-	<jsp:include page="../module/layout_top.jsp" />
 	
 	<section class="breadcrumb_part">
 		<div class="container">

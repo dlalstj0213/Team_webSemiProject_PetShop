@@ -4,7 +4,9 @@
     
 <!DOCTYPE html>
 <html>
+<head>
  <jsp:include page="../module/layout_top.jsp"/>
+</head>
 <body>
  
  <section class="banner_part">

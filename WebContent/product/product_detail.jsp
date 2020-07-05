@@ -5,10 +5,9 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-<meta charset="EUC-KR">
+	<jsp:include page="../module/layout_top.jsp" />
 </head>
 <body>
-	<jsp:include page="../module/layout_top.jsp" />
 	 <!-- breadcrumb part start-->
 	    <section class="breadcrumb_part single_product_breadcrumb">
 	        <div class="container">
@@ -45,22 +44,30 @@
 	        </div>
 	        <div class="col-lg-8">
 	          <div class="single_product_text text-center">
+	          	    <c:if test="${pro.quantity==0}">
+	                	<p> *품절* </p>
+	                	<p> 현재 남아있는 재고가 없습니다. </p>
+	                </c:if>
 	            <h3>${pro.name}</h3>
 	            <p>${pro.info}</p>
+         <form class="card_area" action="../cart/cart.do?m=insert&code=${pro.product_code}" method="post" novalidate="novalidate">
 	            <div class="card_area">
 	                <div class="product_count_area">
 	                    <p>Quantity</p>
 	                    <div class="product_count d-inline-block">
 	                        <span class="product_count_item inumber-decrement"> <i class="ti-minus"></i></span>
-	                        <input class="product_count_item input-number" type="text" value="1" min="0" max="10">
+	                        <input class="product_count_item input-number" name="quantity" type="text" value="1" min="1" max="${pro.quantity}">
 	                        <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
 	                    </div>
-	                    <p>${pro.price} 원</p>
+	                    <p>${pro.price} won</p>
 	                </div>
+	                <c:if test="${pro.quantity ne 0}">
 	              <div class="add_to_cart">
-	                  <a href="#" class="btn_3">add to cart</a>
+	                  <input class="genric-btn primary-border e-large" type="submit" value="Add to Cart">
 	              </div>
+	              </c:if>
 	            </div>
+	            </form>
 	          </div>
 	        </div>
 	      </div>

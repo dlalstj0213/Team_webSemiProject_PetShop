@@ -10,7 +10,6 @@ public class Product {
 	public Product() {
 	}
 	public Product(int product_code, String name, int price, int quantity, String info) {
-		super();
 		this.product_code = product_code;
 		this.name = name;
 		this.price = price;

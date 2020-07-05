@@ -195,14 +195,14 @@ public class OrderDAO {
 		}
 	}
 
-	boolean updateProductQuantity(OrderDetail orderDetail) {
+	boolean updateProductQuantity(int quantity, int productCode) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(OrderSQL.UPDATE_PRODUCT_QUANTITY);
-			pstmt.setInt(1, orderDetail.getQuantity());
-			pstmt.setInt(2, orderDetail.getProductCode());
+			pstmt.setInt(1, quantity);
+			pstmt.setInt(2, productCode);
 			int i = pstmt.executeUpdate();
 			if(i>0) {
 				return true;

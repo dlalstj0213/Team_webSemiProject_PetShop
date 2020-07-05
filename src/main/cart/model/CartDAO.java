@@ -158,7 +158,7 @@ public class CartDAO {
 		}
 	}
 	
-	boolean insertCart(String userEmail, int productCode) {
+	boolean insertCart(String userEmail, int productCode, int quantity) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -166,6 +166,7 @@ public class CartDAO {
 			pstmt = conn.prepareStatement(CartSQL.INSERT_PRODUCT_TO_CART);
 			pstmt.setString(1, userEmail);
 			pstmt.setInt(2, productCode);
+			pstmt.setInt(3, quantity);
 			int i = pstmt.executeUpdate();
 			if(i>0) {
 				return true;

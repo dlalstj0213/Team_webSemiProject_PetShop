@@ -23,18 +23,19 @@ public class OrderService {
 	}
 	
 	public ListResult getProductByCart(ListResult cart, int code) {
-		ArrayList<Cart> cartList = (ArrayList<Cart>)cart.getList();
 		ArrayList<Cart> result = new ArrayList<Cart>();
+		ListResult responseData = new ListResult();
 		long total = 0;
-		for(Cart temp : cartList) {
+		for(Object obj : cart.getList()) {
+			Cart temp = (Cart)obj;
 			if(temp.getCartCode()==code) {
 				total += temp.getTotalPrice();
 				result.add(temp);
 			}
 		}
-		cart.setSubTotal(total);
-		cart.setList(result);
-		return cart;
+		responseData.setList(result);
+		responseData.setSubTotal(total);
+		return responseData;
 	}
 
 
@@ -111,12 +112,12 @@ public class OrderService {
 		ArrayList<Cart> cartList = (ArrayList<Cart>)requestData.getList();
 		ArrayList<OrderDetail> orderList = new ArrayList<OrderDetail>();
 		ListResult responseData = new ListResult();
-		OrderDetail orderDetail = new OrderDetail();
 		int checkCount = 0;
 		int totalQuantity = 0;
 		long subTotal = 0;
 		if(checkQuantity(requestData)) {
 			for(Cart cart : cartList) {
+				OrderDetail orderDetail = new OrderDetail();
 				int quantity = dao.getProductQuantity(cart.getProductCode());
 				if(quantity>0 && quantity >= cart.getQuantity()) {
 					orderDetail.setEmail(cart.getEmail())
@@ -129,26 +130,29 @@ public class OrderService {
 					.setProductName(cart.getName());
 					if(dao.insertOrderDetail(orderDetail)) {
 						if(dao.deleteMyCart(cart)) {
-							subTotal+=orderDetail.getTotalPrice();
-							orderList.add(orderDetail);
-							checkCount++;
-							totalQuantity += orderDetail.getQuantity();
+							if(dao.updateProductQuantity(quantity - orderDetail.getQuantity(), orderDetail.getProductCode())) {
+								subTotal+=orderDetail.getTotalPrice();
+								orderList.add(orderDetail);
+								checkCount++;
+								totalQuantity += orderDetail.getQuantity();
+							}
 						}
 					}
 				}else {
 					responseData.setResultType(ResultSet.QUANTITY_NOT_ENOUGH);
-					break;
+					return responseData;
 				}
 			}
 		}
-		if(orderList.size()==checkCount) {
+		if(cartList.size()==checkCount && orderList.size()==checkCount) {
 			responseData.setTotalQuantity(totalQuantity);
 			responseData.setList(orderList);
 			responseData.setSubTotal(subTotal);
 			responseData.setResultType(ResultSet.PAY_SUCCESS);
 			return responseData;
 		}
-		return null;
+		responseData.setResultType(ResultSet.PAY_FAIL);
+		return responseData;
 	}
 
 	public ArrayList<OrderDetail> getPaymentList(String userEmail) {

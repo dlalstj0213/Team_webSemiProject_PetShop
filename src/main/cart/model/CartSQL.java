@@ -8,5 +8,5 @@ public interface CartSQL {
 	String SELECT_COUNT_ALL = "select count(*) from CART where EMAIL=?";
 	String DELETE_MY_CART= "delete from CART where EMAIL=? and CART_CODE=?";
 	String DELETE_ALL_MY_CART="delete from CART where EMAIL=?";
-	String INSERT_PRODUCT_TO_CART= "insert into CART values(CART_SEQ.nextval, ?, ?)";
+	String INSERT_PRODUCT_TO_CART= "insert into CART values(CART_SEQ.nextval, ?, ?, ?)";
 }
