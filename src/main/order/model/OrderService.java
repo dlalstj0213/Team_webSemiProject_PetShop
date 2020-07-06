@@ -21,7 +21,7 @@ public class OrderService {
 	public ListResult getProductByCart(ListResult cart) {
 		return null;
 	}
-	
+
 	public ListResult getProductByCart(ListResult cart, int code) {
 		ArrayList<Cart> result = new ArrayList<Cart>();
 		ListResult responseData = new ListResult();
@@ -87,21 +87,24 @@ public class OrderService {
 				quantity5 = dao.getProductQuantity(cart.getProductCode());
 			}
 		}
+
 		int checkCount=0;
-		for(Cart cart : cartList) {
-			if(quantity1 >= product1 && product1 != 0) {
-				checkCount++;
-			} else if(quantity2 >= product2 && product2 != 0) {
-				checkCount++;
-			} else if(quantity3 >= product3 && product3 != 0) {
-				checkCount++;
-			} else if(quantity4 >= product4 && product4 != 0) {
-				checkCount++;
-			} else if(quantity5 >= product5 && product5 != 0) {
-				checkCount++;
-			}
+		if(quantity1 >= product1 || product1 == 0) {
+			checkCount++;
 		}
-		if(cartList.size() == checkCount) {
+		if(quantity2 >= product2 || product2 == 0) {
+			checkCount++;
+		}
+		if(quantity3 >= product3 || product3 == 0) {
+			checkCount++;
+		}
+		if(quantity4 >= product4 || product4 == 0) {
+			checkCount++;
+		}
+		if(quantity5 >= product5 || product5 == 0) {
+			checkCount++;
+		}
+		if(checkCount == 5) {
 			return true;
 		}
 		return false;

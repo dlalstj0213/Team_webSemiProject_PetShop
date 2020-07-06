@@ -54,7 +54,7 @@
 								<li class="nav-item"><a class="nav-link" href="../product/product.do?m=page">Product</a>
 								</li>
 								<li class="nav-item"><a class="nav-link"
-									href="comments.html">Review</a></li>
+									href="../board/board.do">Review</a></li>
 								<li class="nav-item"><a class="nav-link"
 									href="../home/home.do?m=contact">Contact</a></li>
 								<c:if test="${empty loginUser}">

@@ -3,7 +3,7 @@ package web.domain;
 import java.sql.Date;
 
 public class Board {
-	private int idx;
+	private long idx;
 	private String writer;
 	private String email;
 	private String title;
@@ -16,7 +16,7 @@ public class Board {
 	
 	public Board() {}
 	
-	public Board(int idx, String writer, String email, String title, String content, Date wrtieDate, int readNum,
+	public Board(long idx, String writer, String email, String title, String content, Date wrtieDate, int readNum,
 			String fileName, String ofileName, long fileSize) {
 		this.idx = idx;
 		this.writer = writer;
@@ -30,7 +30,7 @@ public class Board {
 		this.fileSize = fileSize;
 	}
 
-	public int getIdx() {
+	public long getIdx() {
 		return idx;
 	}
 
