@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import main.vo.ListResult;
 import main.vo.Pagination;
 import web.domain.Board;
+import web.domain.Comment;
+import web.domain.Member;
 
 public class BoardService {
 
@@ -34,5 +36,26 @@ public class BoardService {
 	public void delS(long seq) {
 		dao.del(seq);
 	}
-
+	
+	public boolean updateReadNumService(long idx, int count) {
+		Board board = dao.getBoard(idx);
+		board.setReadNum(board.getReadNum()+count);
+		return dao.updateReadNum(board);
+	}
+	
+	public ArrayList<Comment> getCommentListService(long boardIdx){
+		return dao.getCommentList(boardIdx);
+	}
+	
+	public ArrayList<Comment> insertCommentAndgetCommentListService(Member user, long idx, String content){
+		if(dao.insertComment(user, idx, content)) {
+			return dao.getCommentList(idx);
+		} else {
+			return null;
+		}
+	}
+	
+	public void deleteCommentService(long commentIdx) {
+		dao.deleteComment(commentIdx);
+	}
 }

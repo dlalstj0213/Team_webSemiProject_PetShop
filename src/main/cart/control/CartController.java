@@ -44,7 +44,6 @@ public class CartController extends HttpServlet {
 	private void responseMyCartList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String cpStr = request.getParameter("cp");
-		String psStr = request.getParameter("ps");
 		
 		int currentPage = 1;
 		if(cpStr == null) {
@@ -59,32 +58,7 @@ public class CartController extends HttpServlet {
 		session.setAttribute("cp", currentPage);
 
 		//(2) ps 
-		int pageSize = 5;
-		if(psStr == null) {
-			Object psObj = session.getAttribute("ps");
-			if(psObj != null) {
-				pageSize = (Integer)psObj;
-			}
-		}else {
-			psStr = psStr.trim();
-			int psParam = Integer.parseInt(psStr);
-
-			Object psObj = session.getAttribute("ps");
-			if(psObj != null) {
-				int psSession = (Integer)psObj;
-				if(psSession != psParam) {
-					currentPage = 1;
-					session.setAttribute("cp", currentPage);
-				}
-			}else {
-				if(pageSize != psParam) {
-					currentPage = 1;
-					session.setAttribute("cp", currentPage);
-				}
-			}
-			pageSize = psParam;
-		}
-		session.setAttribute("ps", pageSize);
+		int pageSize = 3;
 		
 		Member user = (Member)session.getAttribute("loginUser");
 		CartService service = CartService.getInstance();

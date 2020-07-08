@@ -14,10 +14,12 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import web.domain.Board;
+import web.domain.Comment;
+import web.domain.Member;
 
 class BoardDAO {
 	private DataSource ds;
-	
+
 	BoardDAO(){
 		try {
 			Context initContext = new InitialContext();
@@ -27,42 +29,7 @@ class BoardDAO {
 			System.out.println("Apache DBCP ��ü(jdbc/myoracle)�� ã�� ����");
 		}
 	}
-	/*ArrayList<Board> list(int currentPage, int pageSize){
-		ArrayList<Board> list = new ArrayList<Board>();
-		System.out.println("1");
-		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql = BoardSQL.LIST;
-		try {
-			con = ds.getConnection();
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				long seq = rs.getLong(1);
-				String writer = rs.getString(2);
-				String email = rs.getString(3);
-				String subject = rs.getString(4);
-	 			String content = rs.getString(5);
-				Date rdate = rs.getDate(6);
-				
-				Board b = new Board(seq, writer, email, subject, content, rdate);
-				list.add(b);
-			}
-			return list;
-		}catch(SQLException se) {
-			se.printStackTrace();
-			return null;
-		}finally {
-			try {
-				if(rs != null) rs.close();
-				if(stmt != null) stmt.close();
-				if(con != null) con.close();
-			}catch(SQLException se) {
-				se.printStackTrace();
-			}
-		}
-	}*/
+
 	ArrayList<Board> listResult (int currentPage, int pageSize) {
 		ArrayList<Board>list =new ArrayList<Board>();
 		Connection con= null;
@@ -83,8 +50,9 @@ class BoardDAO {
 				String email= rs.getString("EMAIL");
 				String title= rs.getString("TITLE");
 				String content= rs.getString("CONTENT");
-				Date writerdate=rs.getDate("WRITERDATE");
-				Board b= new Board(seq, writer, email, title, content, writerdate, 0, null, null, 0);
+				Date writerdate=rs.getDate("WRITEDATE");
+				int readNum = rs.getInt("READNUM");
+				Board b= new Board(seq, writer, email, title, content, writerdate, readNum, null, null, 0);
 				list.add(b);				
 			}
 			return list;
@@ -101,7 +69,7 @@ class BoardDAO {
 			}
 		}
 	}
-	
+
 	long getTotalCount() {
 		Connection con=null;
 		Statement stmt=null;
@@ -131,7 +99,7 @@ class BoardDAO {
 			}
 		}
 	}
-	
+
 	boolean insert(Board board) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -181,8 +149,9 @@ class BoardDAO {
 				String subject = rs.getString(4);
 				String content = rs.getString(5);
 				Date rdate = rs.getDate(6);
-				
-				return new Board(seq, writer, email, subject, content, rdate, 0, null, null, 0);
+				int readNum = rs.getInt("READNUM");
+
+				return new Board(seq, writer, email, subject, content, rdate, readNum, null, null, 0);
 			}else {
 				return null;
 			}
@@ -233,6 +202,112 @@ class BoardDAO {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, seq);
+			pstmt.executeUpdate();
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
+	}
+
+	boolean updateReadNum(Board board) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = BoardSQL.UPDATE_READNUM;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, board.getReadNum());
+			pstmt.setLong(2, board.getIdx());
+			int i = pstmt.executeUpdate();
+			if(i>0) return true;
+			else return false;
+		}catch(SQLException se) {
+			se.printStackTrace();
+			return false;
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
+	}
+
+	boolean insertComment(Member user, long idx, String content) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = BoardSQL.INSERT_COMMENT;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, idx);
+			pstmt.setString(2, user.getName());
+			pstmt.setString(3, user.getEmail());
+			pstmt.setString(4, content);
+			int i = pstmt.executeUpdate();
+			if(i>0) return true;
+			else return false;
+		}catch(SQLException se) {
+			se.printStackTrace();
+			return false;
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}	
+	}
+
+	ArrayList<Comment> getCommentList(long boardIdx){
+		ArrayList<Comment> commentList = new ArrayList<Comment>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = BoardSQL.SELECT_COMMENT;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, boardIdx);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int commentIdx = rs.getInt("COMMENT_IDX");
+				String writer = rs.getString("WRITER");
+				String email = rs.getString("EMAIL");
+				Date writeDate = rs.getDate("WRITEDATE");
+				String content = rs.getString("CONTENT");
+				commentList.add(new Comment(commentIdx, boardIdx, writer, email, writeDate, content));
+			}
+			return commentList;
+		}catch(SQLException se) {
+			se.printStackTrace();
+			return null;
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}		
+	}
+
+	void deleteComment(long commentIdx) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(BoardSQL.DELETE_COMMENT);
+			pstmt.setLong(1, commentIdx);
 			pstmt.executeUpdate();
 		}catch(SQLException se) {
 			se.printStackTrace();

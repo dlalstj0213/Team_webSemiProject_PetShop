@@ -61,7 +61,7 @@
 				<br/>
 				
 				<div class="mb-3">
-				<textarea type="text" value="${board.content}" rows="5" class="form-control" readonly><div class="board_content"></textarea>
+				<textarea type="text" value="hekio" rows="5" class="form-control" readonly><c:out value="${board.content}"/></textarea>
 				<div class="board_info_box">
 			    </div>
 			    
@@ -76,7 +76,49 @@
 				<a href="board.do"><button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button></a>
 			</div>
 		</div>
-	</article>
+	
+	  <table>
+            <thead>
+            <tr>
+            <th>
+                <h3><strong>Comments</strong></h3>
+            </th>
+            </tr>
+             </thead>
+             	<c:if test="${!empty loginUser}">
+            			 	<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/board.do?m=comment&idx=${board.idx}">
+            			 	<tr>
+			                        <td>
+			                            <div>
+			                            <textarea style="width: 1100px" rows="3" cols="30" id="comment" name="content" placeholder="댓글을 입력하세요"></textarea>
+			                                <button type="submit" class="btn pull-right btn-success">등록</button>
+			                            </div>
+			                        </td>
+			                        </tr>
+			               </form>
+                    </c:if>
+        </table>
+        <div class="section-top-border">
+				<div class="row">
+					<div class="col-lg-12">
+					<c:if test="${!empty comment}">
+						<c:forEach items="${comment}" var="comment">
+						<blockquote class="generic-blockquote">
+						<h5><c:out value="${comment.writer}"/>  ||  <c:out value="${comment.email}"/>  ||  <c:out value="${comment.writeDate}"/> 
+								<c:if test="${loginUser.email eq comment.email}">
+							    &nbsp;<a href="board.do?m=deleteComment&idx=${comment.commentIdx}&seq=${board.idx}">삭제</a>
+							    </c:if>
+						</h5>
+							<div style = "white-space:pre;"><c:out value="${comment.content}"/></div>
+						</blockquote>
+						</c:forEach>
+						</c:if>
+					</div>
+				</div>
+			</div>
+			
+		</article>
+	
 	<br/><br/><br/>
 	<jsp:include page="../module/layout_last.jsp" />
 </body>

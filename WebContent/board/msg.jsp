@@ -2,7 +2,6 @@
 <%
     String kind = (String)request.getAttribute("kind");
     boolean result = (Boolean)request.getAttribute("result");
-    System.out.println("kind: " + kind + ", result: " + result);
 %>
  
 <script language="javascript"> 

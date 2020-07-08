@@ -47,12 +47,12 @@
 			<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/board.do?m=writeOk">
 				<div class="mb-3">
 					<label for="title">작성자</label>
-					<input type="text" class="form-control" name="writer" id="writer" placeholder="이름을 입력해주세요">
+					<input type="text" class="form-control" name="writer" id="writer" value="${loginUser.name}" readonly>
 				</div>
 				
 				<div class="mb-3">
 					<label for="reg_id">이메일</label>
-					<input type="text" class="form-control" name="email" id="email" placeholder="이메일을 입력해주세요">
+					<input type="text" class="form-control" name="email" id="email" value="${loginUser.email}" readonly>
 				</div>
 				
 				<div class="mb-3">

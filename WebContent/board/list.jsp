@@ -37,7 +37,7 @@
 <br/><br/><br/>
 <article>
 <div class="container">
-<div class="table-responsive">
+<div class="table-responsive"   style="text-align:center">
 <table class="table table-striped table-sm">
 		<colgroup>
 			<col style="width:5%;" />
@@ -52,6 +52,7 @@
 				<th>제목</th>
 				<th>작성자</th>
 				<th>이메일</th>
+				<th>조회수</th>
 				<th>작성일</th>
 			</tr>
 		</thead>
@@ -67,6 +68,7 @@
 							<td><a href='board.do?m=content&seq=${board.idx}'><c:out value="${board.title}"/></a></td>
 							<td><c:out value="${board.writer}"/></td>
 							<td><c:out value="${board.email}"/></td>
+							<td><c:out value="${board.readNum}"/></td>
 							<td><c:out value="${board.wrtieDate}"/></td>
 						</tr>
 					</c:forEach>
@@ -74,23 +76,105 @@
 			</c:choose>
 		</tbody>
 </table>
-<hr width='600' size='2' color='gray' noshade>
-<font color='gray' size='3' face='휴먼편지체'>
-    (총페이지수 : ${listResult.page.listCount})
-    &nbsp;&nbsp;&nbsp;
 
-<c:forEach begin="${listResult.page.startPage}" end="${listResult.page.endPage}" var="page">
-    <a href="board.do?cp=${page}">
-               <strong>${page}</strong>
-           </a>&nbsp;
-</c:forEach>
-
-    ( TOTAL : ${listResult.page.listCount} )
-    </font>
+	<table>
+              <tr>
+              		<td align="center" colspan="5">
+            		<%-- 이전 페이지 블럭 버튼 --%>
+            		<nav aria-label="...">
+  					<ul class="pagination">	
+						<c:choose>
+						<c:when test="${listResult.page.currentRange==1}">
+							<li class="page-item disabled">
+							  <a class="page-link" href="board.do?cp=${listResult.page.startPage-1}">&lt;&lt;</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+							  <a class="page-link" href="board.do?cp=${listResult.page.startPage-1}">&lt;&lt;</a>
+							</li>
+						</c:otherwise>
+						</c:choose>
+						<%-- --%>
+						
+						<%-- 이전 페이지 버튼 --%>
+						<c:choose>
+							<c:when test="${listResult.page.currentPage==1}">
+								<li class="page-item disabled">
+								  <a class="page-link" href="board.do?cp=${listResult.page.prevPage}">Previous</a>
+								</li>		
+							</c:when>
+							<c:otherwise>
+								<li class="page-item">
+								  <a class="page-link" href="board.do?cp=${listResult.page.prevPage}">Previous</a>
+								</li>		
+							</c:otherwise>
+						</c:choose>
+						<%-- --%>
+						
+					  <c:forEach begin="${listResult.page.startPage}" end="${listResult.page.endPage}" var="pageNum">
+						<c:choose>
+						<c:when test="${pageNum==listResult.page.currentPage}">
+							<li class="page-item active" aria-current="page">
+						  		<a class="page-link" href="board.do?cp=${pageNum}">${pageNum}<span class="sr-only">(current)</span></a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item"><a class="page-link" href="board.do?cp=${pageNum}">${pageNum}</a></li>
+						</c:otherwise>
+						</c:choose>
+					</c:forEach>
+						
+						<%-- 다음 페이지 버튼 --%>
+						<c:choose>
+							<c:when test="${listResult.page.currentPage==listResult.page.pageCount}">
+								<li class="page-item disabled">
+								  <a class="page-link" href="#">Next</a>
+								</li>
+							</c:when>
+						<c:when test="${listResult.page.rangeCount==0}">
+								<li class="page-item disabled">
+								  <a class="page-link" href="#">Next</a>
+								</li>
+						</c:when>
+							<c:otherwise>
+								<li class="page-item">
+								  <a class="page-link" href="board.do?cp=${listResult.page.nextPage}">Next</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+						<%-- --%>
+						
+						<%-- 다음 페이지 블럭 버튼 --%>
+						<c:choose>
+						<c:when test="${listResult.page.currentRange==listResult.page.rangeCount}">
+							<li class="page-item disabled">
+							  <a class="page-link" href="board.do?cp=${listResult.page.endPage+1}">&gt;&gt;</a>
+							</li>
+						</c:when>
+						<c:when test="${listResult.page.rangeCount==0}">
+							<li class="page-item disabled">
+							  <a class="page-link" href="board.do?cp=${listResult.page.endPage+1}">&gt;&gt;</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+							  <a class="page-link" href="board.do?cp=${listResult.page.endPage+1}">&gt;&gt;</a>
+							</li>
+						</c:otherwise>
+						</c:choose>
+						<%-- --%>
+		                </ul>
+					</nav>
+            		</td>
+              </tr>
+              </table>
 </div>
 </div>
 </article>
 <br/><br/><br/>
+
+
 <script>
 	$(document).on('click', '#btnWriteForm', function(e){
 		e.preventDefault();	
